@@ -1,0 +1,23 @@
+# Core Dependencies
+streamlit>=1.28.0
+langchain>=0.0.350
+crewai>=0.1.0
+langfuse>=0.0.1
+
+# API Integrations
+yfinance>=0.2.33
+alpaca-py>=0.10.0
+google-generativeai>=0.3.0
+
+# Data Processing
+pandas>=2.1.0
+numpy>=1.24.0
+ta>=0.10.0  # Technical Analysis library
+
+# Memory & Storage
+redis>=5.0.0  # For Mem0 implementation
+
+# Utilities
+python-dotenv>=1.0.0
+requests>=2.31.0
+loguru>=0.7.0
