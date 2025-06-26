@@ -11,14 +11,7 @@ import { Loader2, RefreshCw, TrendingUp, TrendingDown } from "lucide-react"
 import Link from "next/link"
 import DashboardLayout from "@/components/dashboard-layout"
 
-// Mock data for demonstration
-const mockStocks = [
-  { id: 1, name: "AAPL", price: 182.52, change: 1.23, sentiment: 0.82, recommendation: "Buy" },
-  { id: 2, name: "MSFT", price: 415.32, change: 2.45, sentiment: 0.75, recommendation: "Buy" },
-  { id: 3, name: "GOOGL", price: 173.63, change: -0.87, sentiment: 0.62, recommendation: "Hold" },
-  { id: 4, name: "AMZN", price: 178.22, change: 1.05, sentiment: 0.71, recommendation: "Buy" },
-  { id: 5, name: "TSLA", price: 175.34, change: -2.34, sentiment: 0.45, recommendation: "Sell" },
-]
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
 const sectors = ["All Sectors", "Technology", "Healthcare", "Finance", "Consumer Goods", "Energy"]
 
@@ -36,15 +29,23 @@ export default function Dashboard() {
   const fetchStocks = async () => {
     setLoading(true)
     try {
-      // In a real app, this would be an API call
-      // const response = await axios.get('/api/get-stocks')
-      // setStocks(response.data)
-
-      // Using mock data for demonstration
-      setTimeout(() => {
-        setStocks(mockStocks)
-        setLoading(false)
-      }, 1000)
+      const response = await fetch(`${API_URL}/recommendations`)
+      if (!response.ok) throw new Error("Failed to fetch recommendations")
+      const data = await response.json()
+      // Convert backend dict to array and map to UI fields
+      const stocksArr = Object.values(data).map((rec: any, idx) => ({
+        id: rec.symbol,
+        name: rec.symbol,
+        price: rec.current_price,
+        change: 0, // Placeholder, backend does not provide change
+        sentiment: rec.sentiment_summary.toLowerCase().includes("positive") ? 0.8 : rec.sentiment_summary.toLowerCase().includes("neutral") ? 0.5 : 0.2,
+        recommendation: rec.recommendation,
+        company_name: rec.company_name,
+        sector: rec.sector,
+        score: rec.score,
+      }))
+      setStocks(stocksArr)
+      setLoading(false)
     } catch (error) {
       toast({
         variant: "destructive",
