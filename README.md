@@ -51,7 +51,7 @@ flowchart TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/stock-ai-platform.git
+git clone https://github.com/Lavanyacheshani/Agent_stock_analysis
 cd stock-ai-platform
 ```
 
@@ -62,7 +62,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn backend.api:app --reload
 ```
-- API available at http://localhost:8000
 
 ### 3. Frontend Setup (Optional: Next.js UI)
 ```bash
@@ -71,13 +70,11 @@ npm install
 echo "NEXT_PUBLIC_API_URL=http://localhost:8000/api" > .env.local
 npm run dev
 ```
-- Frontend available at http://localhost:3000
 
 ### 4. Streamlit Dashboard (Primary UI)
 ```bash
 streamlit run frontend/app.py
 ```
-- Streamlit UI available at http://localhost:8501
 
 ---
 
